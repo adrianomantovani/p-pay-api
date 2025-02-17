@@ -1,0 +1,30 @@
+{
+  "name": "p-pay-api",
+  "version": "1.0.0",
+  "description": "Teste NodeJS - Pay",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "start": "node --watch server.js"
+  },
+  "author": "Adriano Mantovani",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "1.7.9",
+    "bcryptjs": "^3.0.1",
+    "better-sqlite3": "11.8.1",
+    "dotenv": "16.4.7",
+    "express": "4.21.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.2.0",
+    "@eslint/js": "9.17.0",
+    "eslint": "9.19.0",
+    "eslint-config-prettier": "10.0.1",
+    "eslint-plugin-prettier": "5.2.3",
+    "globals": "15.14.0",
+    "jest": "29.7.0",
+    "supertest": "7.0.0"
+  }
+}
