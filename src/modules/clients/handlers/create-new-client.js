@@ -1,17 +1,34 @@
+import * as Yup from 'yup';
 import CreateNewClientSvc from '../services/create-new-client.js';
 
 class CreateNewClientHandler {
-  async handle(request, response) {
-    const { document, name, customerId, password } = request.body;
+  async handle(request, response, next) {
+    try {
+      const schema = Yup.object().shape({
+        document: Yup.string().required(),
+        name: Yup.string().required(),
+        customerId: Yup.string().required(),
+        password: Yup.string().required(),
+      });
 
-    const result = await new CreateNewClientSvc().execute(
-      document,
-      name,
-      customerId,
-      password
-    );
+      await schema.validate(request.body, { abortEarly: false });
 
-    return response.json(result);
+      const { document, name, customerId, password } = request.body;
+
+      const result = await new CreateNewClientSvc().execute(
+        document,
+        name,
+        customerId,
+        password
+      );
+
+      return response.status(201).json(result);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        err.name = 'ValidationError';
+      }
+      next(err);
+    }
   }
 }
 

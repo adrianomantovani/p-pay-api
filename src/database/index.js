@@ -1,13 +1,13 @@
 import Database from 'better-sqlite3';
 
 const db = new Database(
-  `./src/database/${process.env.DATABASE_NAME}`,
+  `./${process.env.DATABASE_NAME}`,
   Database.OPEN_READWRITE
 );
 
 try {
   db.exec(`
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE IF NOT EXISTS clients (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           customer_id TEXT NOT NULL,
           document TEXT NOT NULL,
@@ -15,7 +15,7 @@ try {
           password TEXT NOT NULL
         );
       `);
-  console.log('Created table users successfully');
+  console.log('Created table clients successfully');
 } catch (err) {
   console.error(err);
 }

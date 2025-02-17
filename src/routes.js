@@ -10,10 +10,13 @@ const routes = express.Router({
   strict: true,
 });
 
-routes.get('/default-client', checkClientHandle.handle);
+routes.get('/clients/default-client', checkClientHandle.handle);
 
-routes.get('/client-by-document/:doc', getClientByDocumentHandle.handle);
+routes.get(
+  '/clients/client-by-document/:doc',
+  getClientByDocumentHandle.handle
+);
 
-routes.post('/user-create', createNewClientHandle.handle);
+routes.post('/clients/user-create', createNewClientHandle.handle);
 
 export default routes;
