@@ -11,16 +11,15 @@ app.use(express.json());
 app.use(routes);
 app.use(errorHandler);
 
-const rowsDefault = db
-  .prepare(
-    `
-      SELECT * FROM clients
-      WHERE document = ${process.env.DEFAULT_CLIENT_DOC}
-      LIMIT 1
-    `
-  )
-  .all();
-console.log('rowsDefault:', rowsDefault);
+// const rowsDefault = db
+//   .prepare(
+//     `
+//       SELECT * FROM clients
+//       WHERE document = ${process.env.DEFAULT_CLIENT_DOC}
+//       LIMIT 1
+//     `
+//   )
+//   .all();
 
 // if (rowsDefault.length < 1) {
 //   const insert = db.prepare(

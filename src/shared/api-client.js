@@ -32,7 +32,6 @@ class ApiClient {
       })
       .catch((err) => {
         const error = new createError(err.response.status, err.response.data);
-        console.log('>>>> ApiClient >> status:', err.response.status);
         throw error;
       });
     return response.data;

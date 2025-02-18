@@ -7,18 +7,16 @@ class CreateNewClientHandler {
       const schema = Yup.object().shape({
         document: Yup.string().required(),
         name: Yup.string().required(),
-        customerId: Yup.string().required(),
         password: Yup.string().required(),
       });
 
       await schema.validate(request.body, { abortEarly: false });
 
-      const { document, name, customerId, password } = request.body;
+      const { document, name, password } = request.body;
 
       const result = await new CreateNewClientSvc().execute(
         document,
         name,
-        customerId,
         password
       );
 
