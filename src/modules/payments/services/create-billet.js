@@ -1,17 +1,10 @@
 import AsaasClient from '../../../shared/asaas-client.js';
+import getDueDate from '../../../shared/get-due-date.js';
 
 export default class CreateBilletPaymentSvc {
   async execute(customerId, value) {
     try {
-      const newDate = new Date(Date.now());
-      newDate.setMonth(newDate.getMonth() + 1);
-
-      const year = newDate.getFullYear();
-      const month = String(newDate.getMonth() + 1).padStart(2, '0');
-      const day = String(newDate.getDate()).padStart(2, '0');
-
-      const dueDate = `${year}-${month}-${day}`;
-
+      const dueDate = getDueDate();
       const result = await new AsaasClient().createBillet(
         customerId,
         value,
@@ -21,6 +14,7 @@ export default class CreateBilletPaymentSvc {
       return result;
     } catch (err) {
       console.error(err);
+      throw err;
     }
   }
 }

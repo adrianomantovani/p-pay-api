@@ -5,6 +5,7 @@ import getClientByDocumentHandle from './modules/clients/handlers/get-client-by-
 import createNewClientHandle from './modules/clients/handlers/create-new-client.js';
 import createPixPaymentHandle from './modules/payments/handlers/create-pix.js';
 import createBilletPaymentHandle from './modules/payments/handlers/create-billet.js';
+import createCreditCardPaymentHandle from './modules/payments/handlers/create-credit-card.js';
 
 const routes = express.Router({
   mergeParams: true,
@@ -19,10 +20,12 @@ routes.get(
   getClientByDocumentHandle.handle
 );
 
-routes.post('/clients/user-create', createNewClientHandle.handle);
+routes.post('/clients/create', createNewClientHandle.handle);
 
 routes.post('/payments/pix', createPixPaymentHandle.handle);
 
 routes.post('/payments/billet', createBilletPaymentHandle.handle);
+
+routes.post('/payments/credit-card', createCreditCardPaymentHandle.handle);
 
 export default routes;

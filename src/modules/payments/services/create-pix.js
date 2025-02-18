@@ -15,6 +15,7 @@ export default class CreatePixPaymentSvc {
       return pixQrCode;
     } catch (err) {
       console.error(err);
+      throw err;
     }
   }
 

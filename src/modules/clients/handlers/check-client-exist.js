@@ -9,11 +9,9 @@ class CheckClient {
 
       return response.json(result);
     } catch (err) {
-      // if (err instanceof Yup.ValidationError) {
-      //   err.name = 'ValidationError';
-      // }
       return response.status(500).json({
-        error: err,
+        error: true,
+        message: err,
       });
     }
   }

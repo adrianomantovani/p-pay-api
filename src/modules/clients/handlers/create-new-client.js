@@ -2,11 +2,11 @@ import * as Yup from 'yup';
 import CreateNewClientSvc from '../services/create-new-client.js';
 
 class CreateNewClientHandler {
-  async handle(request, response, next) {
+  async handle(request, response) {
     try {
       const schema = Yup.object().shape({
-        document: Yup.string().required(),
-        name: Yup.string().required(),
+        document: Yup.string().required('O documento é obrigatório'),
+        name: Yup.string().required('O nome é obrigatório'),
         password: Yup.string().required(),
       });
 
@@ -22,10 +22,10 @@ class CreateNewClientHandler {
 
       return response.status(201).json(result);
     } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        err.name = 'ValidationError';
-      }
-      next(err);
+      return response.status(400).json({
+        error: true,
+        message: err.errors[0],
+      });
     }
   }
 }

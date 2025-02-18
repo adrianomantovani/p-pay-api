@@ -18,7 +18,8 @@ class AsaasClient {
 
       return result;
     } catch (err) {
-      throw { status: 500 };
+      console.error(err);
+      throw 'Cliente não encontrado';
     }
   }
 
@@ -32,10 +33,10 @@ class AsaasClient {
           cpfCnpj: document,
         },
       });
-
       return result;
     } catch (err) {
-      throw { status: 500 };
+      console.error(err);
+      throw 'Não foi possível efetuar a criação do cliente';
     }
   }
 
@@ -49,7 +50,8 @@ class AsaasClient {
 
       return result;
     } catch (err) {
-      throw { status: 500 };
+      console.error(err);
+      throw 'Não foi possível localizar a chave pix';
     }
   }
 
@@ -65,7 +67,8 @@ class AsaasClient {
 
       return result;
     } catch (err) {
-      throw { status: 500 };
+      console.error(err);
+      throw 'Não foi possível criar a chave pix';
     }
   }
 
@@ -85,23 +88,68 @@ class AsaasClient {
 
       return result;
     } catch (err) {
-      throw { status: 500 };
+      console.error(err);
+      throw 'Não foi possível criar o qrcode';
     }
   }
 
   async createBillet(customerId, value, dueDate) {
-    const result = await this.api.request({
-      endpoint: `/v3/payments`,
-      method: 'POST',
-      data: {
-        billingType: 'BOLETO',
-        customer: customerId,
-        value,
-        dueDate,
-      },
-    });
+    try {
+      const result = await this.api.request({
+        endpoint: `/v3/payments`,
+        method: 'POST',
+        data: {
+          billingType: 'BOLETO',
+          customer: customerId,
+          value,
+          dueDate,
+        },
+      });
 
-    return result;
+      return result;
+    } catch (err) {
+      throw 'Não foi possível criar o boleto';
+    }
+  }
+
+  async createCreditCardPayment(customerId, value, dueDate) {
+    try {
+      const result = await this.api.request({
+        endpoint: `/v3/payments`,
+        method: 'POST',
+        data: {
+          billingType: 'CREDIT_CARD',
+          customer: customerId,
+          value,
+          dueDate,
+        },
+      });
+
+      return result;
+    } catch (err) {
+      console.error(err);
+      throw 'Não foi possível criar a cobrança com cartão de crédito';
+    }
+  }
+
+  async processCardCharge(paymentId, creditCard, holderInfo) {
+    try {
+      const result = await this.api.request({
+        endpoint: `/v3/payments/${paymentId}/payWithCreditCard`,
+        method: 'POST',
+        data: {
+          creditCard,
+          creditCardHolderInfo: {
+            ...holderInfo,
+          },
+        },
+      });
+
+      return result;
+    } catch (err) {
+      console.error(err);
+      throw 'Não foi possível efetuar a transação de cartão';
+    }
   }
 }
 
