@@ -22,18 +22,32 @@ class ApiClient {
     params = {},
     headers = {},
   }) {
-    const response = await this.client
-      .request({
-        url: endpoint,
-        method,
-        data,
-        params,
-        headers,
-      })
-      .catch((err) => {
-        const error = new createError(err.response.status, err.response.data);
-        throw error;
-      });
+    // console.log('Will call external api:', {
+    //   endpoint,
+    //   method,
+    //   data,
+    //   params,
+    //   headers,
+    // });
+    const payload =
+      data === null
+        ? {
+            url: endpoint,
+            method,
+            params,
+            headers,
+          }
+        : {
+            url: endpoint,
+            method,
+            data,
+            params,
+            headers,
+          };
+    const response = await this.client.request(payload).catch((err) => {
+      const error = new createError(err.response.status, err.response.data);
+      throw error;
+    });
     return response.data;
   }
 }
