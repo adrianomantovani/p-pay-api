@@ -1,4 +1,5 @@
 import AsaasClient from '../../../shared/asaas-client.js';
+import handleError from '../../../shared/handle-error.js';
 
 class CheckClient {
   async handle(request, response) {
@@ -9,9 +10,10 @@ class CheckClient {
 
       return response.json(result);
     } catch (err) {
-      return response.status(500).json({
+      const message = handleError(err);
+      return response.status(400).json({
         error: true,
-        message: err,
+        message,
       });
     }
   }

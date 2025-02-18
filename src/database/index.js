@@ -11,8 +11,7 @@ try {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           customer_id TEXT NOT NULL,
           document TEXT NOT NULL,
-          name TEXT NOT NULL,
-          password TEXT NOT NULL
+          name TEXT NOT NULL
         );
       `);
   console.log('Created table clients successfully');

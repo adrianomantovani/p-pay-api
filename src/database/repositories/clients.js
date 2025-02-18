@@ -1,14 +1,11 @@
 import db from '../index.js';
-import passwordBcrypt from '../../shared/password-bcrypt.js';
 
-export async function createNewUser(document, name, customerId, password) {
+export async function createNewUser(document, name, customerId) {
   const insert = db.prepare(
-    'INSERT INTO clients (document, name, customer_id, password) VALUES (?, ?, ?, ?)'
+    'INSERT INTO clients (document, name, customer_id) VALUES (?, ?, ?)'
   );
 
-  const passwordHash = await passwordBcrypt.hash(password);
-
-  insert.run(document, name, customerId, passwordHash);
+  insert.run(document, name, customerId);
   console.log('Insert new client successfully');
 
   return {
