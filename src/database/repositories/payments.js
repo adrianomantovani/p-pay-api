@@ -42,3 +42,14 @@ export async function getPendingPaymentByDocument(document) {
 
   return row;
 }
+
+export async function cancelPendingPayments(customerId) {
+  const update = db.prepare(
+    `
+     UPDATE payments SET status = ? 
+     WHERE status = ?
+     AND customer_id = ?
+    `
+  );
+  update.run('canceled', 'pending', customerId);
+}

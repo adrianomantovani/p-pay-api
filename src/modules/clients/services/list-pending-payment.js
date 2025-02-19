@@ -22,7 +22,6 @@ export default class ListClientPendingPayment {
     if (!payment) return null;
 
     this.id = payment.id;
-    console.log('payment.type:', payment.type);
 
     switch (payment.type) {
       case 'billet':

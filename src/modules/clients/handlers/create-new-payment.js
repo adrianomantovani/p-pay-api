@@ -1,19 +1,19 @@
 import * as Yup from 'yup';
-import CreateNewClientSvc from '../services/create-new-client.js';
+
+import CreateNewPaymentSvc from '../services/create-new-payment.js';
 import validateCpfCnpj from '../../../shared/validate-cpf-cnpj.js';
 import handleError from '../../../shared/handle-error.js';
 
-class CreateNewClientHandler {
+class CreateNewPaymentHandler {
   async handle(request, response) {
     try {
       const schema = Yup.object().shape({
         document: Yup.string().required('O documento é obrigatório'),
-        name: Yup.string().required('O nome é obrigatório'),
       });
 
       await schema.validate(request.body, { abortEarly: false });
 
-      const { document, name } = request.body;
+      const { document } = request.body;
 
       const isValidCpfCnpj = validateCpfCnpj(document);
 
@@ -23,7 +23,7 @@ class CreateNewClientHandler {
 
       const cpfCnpj = document.replace(/\D/g, '');
 
-      const result = await new CreateNewClientSvc().execute(cpfCnpj, name);
+      const result = await new CreateNewPaymentSvc().execute(cpfCnpj);
 
       return response.status(200).json(result);
     } catch (err) {
@@ -36,5 +36,5 @@ class CreateNewClientHandler {
   }
 }
 
-const createNewClientHandle = new CreateNewClientHandler();
-export default createNewClientHandle;
+const createNewPaymentHandle = new CreateNewPaymentHandler();
+export default createNewPaymentHandle;

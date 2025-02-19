@@ -11,7 +11,6 @@ export default class CreateNewClientSvc {
 
   async execute(document, name) {
     try {
-      console.log('GOT INTO execute()');
       const rowClient = await getClientByDocument(document);
 
       if (rowClient) {
@@ -42,7 +41,6 @@ export default class CreateNewClientSvc {
   }
 
   async createAsaasClient(document, name) {
-    console.log('GOT INTO createAsaasClient()');
     try {
       const result = await this.client.createClient(name, document);
       this.customerId = result.id;
@@ -55,7 +53,6 @@ export default class CreateNewClientSvc {
   }
 
   async insertNewClient(document, name) {
-    console.log('GOT INTO insertNewClient()');
     try {
       await createNewClient(document, name, this.customerId);
     } catch (err) {
