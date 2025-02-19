@@ -1,6 +1,5 @@
 import express from 'express';
 
-import checkClientHandle from './modules/clients/handlers/check-client-exist.js';
 import createNewClientHandle from './modules/clients/handlers/create-new-client.js';
 import createPixPaymentHandle from './modules/payments/handlers/create-pix.js';
 import createBilletPaymentHandle from './modules/payments/handlers/create-billet.js';
@@ -12,9 +11,7 @@ const routes = express.Router({
   strict: true,
 });
 
-routes.get('/clients/default-client', checkClientHandle.handle);
-
-routes.post('/clients/create', createNewClientHandle.handle);
+routes.post('/clients/start', createNewClientHandle.handle);
 
 routes.post('/payments/pix', createPixPaymentHandle.handle);
 

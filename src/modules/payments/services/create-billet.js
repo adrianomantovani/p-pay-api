@@ -3,6 +3,8 @@ import getDueDate from '../../../shared/get-due-date.js';
 import { insertNewBillet } from '../../../database/repositories/billets.js';
 import { insertNewPayment } from '../../../database/repositories/payments.js';
 
+import { billetMessage } from '../../../shared/messages.js';
+
 export default class CreateBilletPaymentSvc {
   async execute(customerId, value) {
     try {
@@ -29,7 +31,7 @@ export default class CreateBilletPaymentSvc {
 
       return {
         success: true,
-        message: 'Aqui está o endereço para acessar o seu boleto',
+        message: billetMessage,
         url: result.bankSlipUrl,
       };
     } catch (err) {

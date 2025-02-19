@@ -20,3 +20,16 @@ export async function insertNewBillet(customerId, value, url) {
     throw err;
   }
 }
+
+export async function getBilletById(id) {
+  const [row] = db
+    .prepare(
+      `
+    SELECT * FROM billets WHERE id = ${id}
+    LIMIT 1;
+  `
+    )
+    .all();
+
+  return row;
+}

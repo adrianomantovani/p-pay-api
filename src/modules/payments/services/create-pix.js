@@ -2,6 +2,8 @@ import AsaasClient from '../../../shared/asaas-client.js';
 import { insertNewQrCode } from '../../../database/repositories/qrcodes.js';
 import { insertNewPayment } from '../../../database/repositories/payments.js';
 
+import { qrcodeMessage } from '../../../shared/messages.js';
+
 export default class CreatePixPaymentSvc {
   constructor() {
     this.asaas = new AsaasClient();
@@ -33,8 +35,7 @@ export default class CreatePixPaymentSvc {
 
       return {
         success: true,
-        message:
-          'Aponte a câmera para a imagem ou utilize o texto para pix copia e cola',
+        message: qrcodeMessage,
         ...pixQrCode,
       };
     } catch (err) {

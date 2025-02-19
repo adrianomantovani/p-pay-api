@@ -19,3 +19,16 @@ export async function insertNewQrCode(customerId, value, key, image, payload) {
     throw err;
   }
 }
+
+export async function getQrcodeById(id) {
+  const [row] = db
+    .prepare(
+      `
+    SELECT * FROM qrcodes WHERE id = ${id}
+    LIMIT 1;
+  `
+    )
+    .all();
+
+  return row;
+}

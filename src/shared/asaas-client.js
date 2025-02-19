@@ -9,11 +9,12 @@ class AsaasClient {
     });
   }
 
-  async listOneClient(id) {
+  async listOneClient(document) {
     try {
       const result = await this.api.request({
-        endpoint: `/v3/customers/${id}`,
+        endpoint: `/v3/customers`,
         method: 'GET',
+        params: { cpfCnpj: document },
       });
 
       return result;

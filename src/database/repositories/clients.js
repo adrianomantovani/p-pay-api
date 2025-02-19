@@ -20,8 +20,8 @@ export async function createNewClient(document, name, customerId) {
   }
 }
 
-export function getClientByDocument(document) {
-  const rows = db
+export async function getClientByDocument(document) {
+  const [row] = db
     .prepare(
       `
       SELECT * FROM clients
@@ -31,5 +31,5 @@ export function getClientByDocument(document) {
     )
     .all();
 
-  return rows;
+  return row;
 }

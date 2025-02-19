@@ -25,3 +25,20 @@ export async function insertNewPayment(
     throw err;
   }
 }
+
+export async function getPendingPaymentByDocument(document) {
+  const [row] = db
+    .prepare(
+      `
+      SELECT p.*  from payments p
+      INNER JOIN clients c on c.customer_id = p.customer_id
+      WHERE c.document = ${document}
+      AND p.status = 'pending'
+      ORDER BY p.created_at DESC
+      LIMIT 1;
+      `
+    )
+    .all();
+
+  return row;
+}

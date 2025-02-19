@@ -17,3 +17,16 @@ export async function insertNewCreditcard(customerId, value, paymentId) {
     throw err;
   }
 }
+
+export async function getCreditcardsById(id) {
+  const [row] = db
+    .prepare(
+      `
+    SELECT * FROM creditcards WHERE id = ${id}
+    LIMIT 1;
+  `
+    )
+    .all();
+
+  return row;
+}
