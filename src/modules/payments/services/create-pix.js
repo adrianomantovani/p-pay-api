@@ -1,17 +1,42 @@
 import AsaasClient from '../../../shared/asaas-client.js';
+import { insertNewQrCode } from '../../../database/repositories/qrcodes.js';
+import { insertNewPayment } from '../../../database/repositories/payments.js';
 
 export default class CreatePixPaymentSvc {
   constructor() {
     this.asaas = new AsaasClient();
   }
 
-  async execute(value) {
+  async execute(customerId, value) {
     try {
       let pixKey = await this.getEvpKey();
 
       if (!pixKey) pixKey = await this.createEvpKey();
+
       const pixQrCode = await this.asaas.createPixQrCode(pixKey, value);
-      return pixQrCode;
+
+      const rowQrcode = await insertNewQrCode(
+        customerId,
+        value,
+        pixKey,
+        pixQrCode.encodedImage,
+        pixQrCode.payload
+      );
+
+      await insertNewPayment(
+        pixQrCode.id,
+        'qrcode',
+        customerId,
+        rowQrcode.id,
+        'pending'
+      );
+
+      return {
+        success: true,
+        message:
+          'Aponte a câmera para a imagem ou utilize o texto para pix copia e cola',
+        ...pixQrCode,
+      };
     } catch (err) {
       console.error(err);
       throw err;

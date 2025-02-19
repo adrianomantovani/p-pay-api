@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import CreateNewClientSvc from '../services/create-new-client.js';
+import validateCpfCnpj from '../../../shared/validate-cpf-cnpj.js';
 import handleError from '../../../shared/handle-error.js';
 
 class CreateNewClientHandler {
@@ -14,7 +15,15 @@ class CreateNewClientHandler {
 
       const { document, name } = request.body;
 
-      const result = await new CreateNewClientSvc().execute(document, name);
+      const isValidCpfCnpj = validateCpfCnpj(document);
+
+      if (!isValidCpfCnpj) {
+        throw 'CPF ou CNPJ inválido';
+      }
+
+      const cpfCnpj = document.replace(/\D/g, '');
+
+      const result = await new CreateNewClientSvc().execute(cpfCnpj, name);
 
       return response.status(201).json(result);
     } catch (err) {

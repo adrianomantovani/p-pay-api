@@ -1,5 +1,7 @@
 import AsaasClient from '../../../shared/asaas-client.js';
 import getDueDate from '../../../shared/get-due-date.js';
+import { insertNewBillet } from '../../../database/repositories/billets.js';
+import { insertNewPayment } from '../../../database/repositories/payments.js';
 
 export default class CreateBilletPaymentSvc {
   async execute(customerId, value) {
@@ -11,7 +13,25 @@ export default class CreateBilletPaymentSvc {
         dueDate
       );
 
-      return result;
+      const rowBillet = await insertNewBillet(
+        customerId,
+        value,
+        result.bankSlipUrl
+      );
+
+      await insertNewPayment(
+        result.id,
+        'billet',
+        customerId,
+        rowBillet.id,
+        'pending'
+      );
+
+      return {
+        success: true,
+        message: 'Aqui está o endereço para acessar o seu boleto',
+        url: result.bankSlipUrl,
+      };
     } catch (err) {
       console.error(err);
       throw err;

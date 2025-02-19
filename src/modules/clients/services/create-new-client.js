@@ -1,4 +1,4 @@
-import { createNewUser } from '../../../database/repositories/clients.js';
+import { createNewClient } from '../../../database/repositories/clients.js';
 import AsaasClient from '../../../shared/asaas-client.js';
 
 export default class CreateNewClientSvc {
@@ -7,7 +7,7 @@ export default class CreateNewClientSvc {
       const result = await new AsaasClient().createClient(name, document);
       const customerId = result.id;
 
-      const rowClient = await createNewUser(document, name, customerId);
+      const rowClient = await createNewClient(document, name, customerId);
       return rowClient;
     } catch (err) {
       console.error(err);

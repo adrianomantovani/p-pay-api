@@ -7,14 +7,17 @@ class CreatePixPaymentHanler {
   async handle(request, response) {
     try {
       const schema = Yup.object().shape({
-        value: Yup.number().required('O valor é obrigatório'),
+        customerId: Yup.string().required('O customerId é obrigatório'),
+        value: Yup.number('O valor deve ser numérico').required(
+          'O valor é obrigatório'
+        ),
       });
 
       await schema.validate(request.body, { abortEarly: false });
 
-      const { value } = request.body;
+      const { customerId, value } = request.body;
 
-      const result = await new CreatePixPaymentSvc().execute(value);
+      const result = await new CreatePixPaymentSvc().execute(customerId, value);
 
       return response.status(201).json(result);
     } catch (err) {
