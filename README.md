@@ -35,6 +35,7 @@ npm start
 
 A aplicação será iniciada e estará ouvindo na porta 3333
 (Server started on port: 3333 🚀)
+O banco de dados (sqlite3) da aplicação é criado no arquivo /development.db
 
 ## Rotas da aplicação
 
@@ -186,4 +187,14 @@ Response body example:
     "message": "string",
     "paymentId": "string"
 }
+```
+
+## Testes da aplicação
+
+Os testes de integração foram criados a fim de verificar se todas as tabelas do banco de dados foram criadas corretamente (no schema correto definido)
+
+Para executar o teste:
+
+```
+npm test
 ```
